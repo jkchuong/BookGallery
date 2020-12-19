@@ -8,9 +8,20 @@ namespace BookGallery.Controllers
 {
     public class BooksController : Controller
     {
-        public string Detail()
+        // Action result almost always used for action method regardless of return type
+        public ActionResult Detail()
         {
-            return "Hello from the book controller";
+            if (DateTime.Today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                // Redirects the page to another url 
+                return Redirect("/");
+            }
+
+            // Display content on page
+            return Content("Hello from the book controller!");
+
+            
+            
         }
     }
 }
