@@ -17,6 +17,13 @@ namespace BookGallery.Controllers
             _comicBookRepository = new ComicBookRepository();
         }
 
+        public ActionResult Index()
+        {
+            var comicBooks = _comicBookRepository.GetComicBooks();
+
+            return View(comicBooks);
+        }
+
         // Action result almost always used for action method regardless of return type
         public ActionResult Detail(int? id)
         {
