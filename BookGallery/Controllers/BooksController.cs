@@ -1,4 +1,5 @@
-﻿using BookGallery.Models;
+﻿using BookGallery.Data;
+using BookGallery.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,23 +10,21 @@ namespace BookGallery.Controllers
 {
     public class BooksController : Controller
     {
-        // Action result almost always used for action method regardless of return type
-        public ActionResult Detail()
+        private ComicBookRepository _comicBookRepository = null;
+
+        public BooksController()
         {
-            var comicBook = new ComicBook()
+            _comicBookRepository = new ComicBookRepository();
+        }
+
+        // Action result almost always used for action method regardless of return type
+        public ActionResult Detail(int? id)
+        {
+            if (id == null)
             {
-                SeriesTitle = "The Amazing Spider-Man",
-                IssueNumber = 700,
-                DescriptionHtml = "<p>Final issue! Witness the final hours of Doctor Octopus' life and his one, last, great act of revenge! Even if Spider-Man survives... <strong>will Peter Parker?</strong></p>",
-                Artists = new Artist[]
-                {
-                    new Artist() { Name = "Dan Slott", Role = "Script"},
-                    new Artist() { Name = "Humberto Ramos", Role = "Pencils"},
-                    new Artist() { Name = "Victor Olazaba", Role = "Inks"},
-                    new Artist() { Name = "Edgar Delgado", Role = "Colors"},
-                    new Artist() { Name = "Chris Eliopoulos", Role = "Letters"}   
-                }
-            };
+                return HttpNotFound();
+            }
+            var comicBook = _comicBookRepository.GetComicBook(id.Value);
             
             // strongly typed view
             return View(comicBook);
